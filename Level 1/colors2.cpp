@@ -9,6 +9,9 @@ using namespace std;
 
     int numberOfAlternatingGroups(vector<int>& colors, int k) {//0 1 1, 3
         int n=colors.size();
+        for(int a=0;a<k;a++){
+            colors.push_back(colors[a]);
+        }
         queue <int>q;
         int cnt=1;
         int ans=0;
