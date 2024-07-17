@@ -27,7 +27,6 @@ void solve(){
                 if(cursum==0 || cursum==-1)break;
             }
             if(cursum==-1){
-                maxLen=0;
                 break;
             }
             if(len>maxLen){
