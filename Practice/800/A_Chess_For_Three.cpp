@@ -23,13 +23,29 @@ using namespace std::chrono;
 
 #define fastio ios::sync_with_stdio(false);cin.tie(NULL);
 
-
 void solve(){
-    int a,b,c;cin>>a>>b>>c;
-    if((a+b+c) %2==1)
-    cout<<-1<<nl;
-    else
-    cout<<min((a+b+c)/2,a+b)<<nl;
+    int a,b,c;
+    cin>>a>>b>>c;
+    priority_queue<int>pq;
+    if(a>0)pq.push(a);
+    if(b>0)pq.push(b);
+    if(c>0)pq.push(c);
+    int cnt=0;
+    while(pq.size()>1){
+        int x=pq.top();
+        pq.pop();
+        int y=pq.top();
+        pq.pop();
+        x--;y--;cnt++;
+        if(x>0)pq.push(x);
+        if(y>0)pq.push(y);
+        
+    }
+    if(pq.size()>0 and pq.top()%2==1){
+        cout<<-1<<nl;
+        return;
+    }
+    cout<<cnt<<nl;
 }
 
 signed main(){
