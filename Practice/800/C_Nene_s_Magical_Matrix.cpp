@@ -26,19 +26,19 @@ using namespace std::chrono;
 
 #define fastio ios::sync_with_stdio(false);cin.tie(NULL);
 
-
 void solve(){
-    int k,q;
-    cin>>k>>q;
-    vi ai(k);
-    vi n(q);
-    input(ai);
-    input(n);
-    // cout<<ai[0]<<" "<<n[0]<<nl;
-    for(int a=0;a<q;a++){
-        cout<<min(n[a],ai[0]-1)<<" ";
+    int n;cin>>n;
+    int sum=n*(n+1)*(4*n-1)/6;
+    int opr=n*(n+1)/2;
+    string nums="";
+    for(int a=1;a<=n;a++){
+        nums+=to_string(a)+" ";
     }
-    cout<<nl;
+    cout<<sum<<" "<<2*n<<nl;
+    for(int a=n-1;a>=0;a--){
+        for(int b=1;b<=2;b++)
+        cout<<b<<sp<<a+1<<sp<<nums<<nl;
+    }
 }
 
 signed main(){
