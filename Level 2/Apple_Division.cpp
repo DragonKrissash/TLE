@@ -42,37 +42,35 @@ int sub(int a,int b,int mod){
    return ans;
 }
 
-void solve(){
-    int n,q;
-    cin>>n>>q;
-    vector<pair<int,int>>t(n+1);
-    repi(0,n,1){
-        t[i].X=0;
-        t[i].Y=0;
-    }
-    repi(1,q,1){
-        int l,r;
-        cin>>l>>r;
-        l--;r--;
-        t[l+1].Y++;
-        t[l].X++;
-        t[r+1].X-=r+1-l;
-        t[r+1].Y--;
-    }
-    int sum=0,cnt=0;
-    repi(0,n-1,1)
-        cnt+=t[i].Y,sum+=t[i].X+cnt,cout<<sum<<sp;
-    cout<<nl;
-}
+void solve();
 
 signed main(){
 
     fastio
-    int tc;cin>>tc;
+    int tc=1;
     while(tc--){
     solve();
     }
 }
+int n;
+vi v(23);
+int sum=0;
+int f(int i,int cursum){
+    if(i==n){
+        int other=sum-cursum;
+        return abs(other-cursum);
+    }
+    return min(f(i+1,cursum+v[i]),f(i+1,cursum));
+}
+
+
+void solve(){
+    cin>>n;
+    repi(0,n-1,1)cin>>v[i],sum+=v[i];
+    // cout<<sum<<nl;
+    cout<<f(0,0);
+}
+
 
 
 // Question od be ded
