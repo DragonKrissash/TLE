@@ -32,6 +32,12 @@ using namespace std::chrono;
 
 #define fastio ios::sync_with_stdio(false);cin.tie(NULL);
 
+const int MOD=1e9+7;
+
+int mod_mul(int a,int b,int m){
+    return ((a%m)*(b%m))%m;
+}
+
 void solve();
 
 signed main(){
@@ -45,40 +51,12 @@ signed main(){
     }
 }
 
-int dirx[]={1,-1,0,0};
-int diry[]={0,0,1,-1};
-
-
-
-bool f(int i,int j,int st,vector<string>&s,vector<vi>&vis){
-    int n=s[0].size();
-    if(i==1 and j==n-1)
-    return 1;
-    if(i<0 || i>1 || j<0 || j>=n)
-    return 0;
-    if(vis[i][j])return 0;
-    int ans=0;
-    vis[i][j]=1;
-    if(st==1){
-        ans=f(i,j+1,2,s,vis)||f(i,j-1,2,s,vis)||f(i-1,j,2,s,vis)||f(i+1,j,2,s,vis);
-    }
-    else{
-        if(s[i][j]=='>')
-        ans=f(i,j+1,1,s,vis);
-        else 
-        ans=f(i,j-1,1,s,vis)
-    }
-    return ans;
-}
-
 void solve(){
     int n;cin>>n;
-    vector<string>s(2);
-    cin>>s[0]>>s[1];
-    vector<vi>vis(5,vi(n+5,0));
-    if(f(0,0,1,s,vis))
-    yes;
-    else no;
+    int ans=mod_mul(337,n,MOD);
+    ans=mod_mul(ans,n+1,MOD);
+    ans=mod_mul(ans,4*n-1,MOD);
+    cout<<ans<<nl;
 }
 
 
