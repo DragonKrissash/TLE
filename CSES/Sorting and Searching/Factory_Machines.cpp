@@ -37,37 +37,29 @@ signed main(){
     }
 }
 
-int get(int val,vi &v,int k){
+bool check(int time,vi &v,int k){
+    int n=v.size();
     int cnt=0;
-    int sum=0;
-    for(int a=0;a<v.size();a++){
-        if(sum+v[a]>val){
-            cnt++;
-            sum=0;
-        }
-        sum+=v[a];
+    for(int a=0;a<n;a++){
+        cnt+=(time/v[a]);
+        if(cnt>=k)return 1;
     }
-    cnt++;
-    // cout<<val<<sp<<cnt<<nl;
-    return cnt<=k;
+    return cnt>=k;
 }
 
 void solve(){
     int n,k;cin>>n>>k;
     vi v(n);
     input(v);
-    int sum=sm(v);
     int l=0,r=1e18;
-    int ans=0;
+    int ans;
     while(l<=r){
-        int mid=l+(r-l)/2;
-        if(get(mid,v,k)){
+        int mid=(l+r)/2;
+        if(check(mid,v,k)){
             ans=mid;
             r=mid-1;
         }
-        else{
-            l=mid+1;
-        }
+        else l=mid+1;
     }
     cout<<ans<<nl;
 }
