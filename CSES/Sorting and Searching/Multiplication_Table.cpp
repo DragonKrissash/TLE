@@ -37,29 +37,30 @@ signed main(){
     }
 }
 
-bool check(int time,vi &v,int k){
-    int n=v.size();
+bool check(int x,int ind,int n){
     int cnt=0;
-    for(int a=0;a<n;a++){
-        cnt+=(time/v[a]);
-        // if(cnt>=k)return 1;
+    for(int a=1;a<=n;a++){
+        cnt+=min(n,x/a);
     }
-    return cnt>=k;
+    return cnt>=ind;
+    // cnt++;
+    // cout<<x<<sp<<cnt<<sp<<cntex<<nl;
+    // return (cnt<=ind) or ((cnt<=ind) and (ind<=(cnt+cntex)));
 }
 
 void solve(){
-    int n,k;cin>>n>>k;
-    vi v(n);
-    input(v);
-    int l=0,r=1e18;
-    int ans;
+    int n;cin>>n;
+    int l=1,r=n*n;
+    int ans=-1;
     while(l<=r){
-        int mid=(l+r)/2;
-        if(check(mid,v,k)){
+        int mid=l+(r-l)/2;
+        if(check(mid,(n*n+1)/2,n)){
             ans=mid;
             r=mid-1;
         }
-        else l=mid+1;
+        else{
+            l=mid+1;
+        }
     }
     cout<<ans<<nl;
 }
