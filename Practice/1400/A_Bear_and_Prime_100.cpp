@@ -77,7 +77,7 @@ void solve(){
     }
     else{
         int cnt=0;
-        for(int a=1;a<18;a++){
+        for(int a=1;a<13;a++){
             rep=que(p[a]);
             if(rep=="yes")cnt++;
             if(p[a]<10 and que(p[a]*p[a])=="yes")cnt++;
