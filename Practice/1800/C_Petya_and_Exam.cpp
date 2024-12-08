@@ -31,49 +31,50 @@ signed main(){
     fastio
     int tc;
     tc=1;
-    // cin>>tc;
+    cin>>tc;
     while(tc--){
     solve();
     }
 }
 
-int check(string t,vector<string>&v){
-    int ind=-1e9;
-    for(auto &s:v){
-        int ptr=s.size()-1;
-        for(int a=t.size()-1;a>=0;a--){
-            if(s[ptr]==t[a])ptr--;
-            else break;
-            if(ptr==-1)break;
-        }
-        if(ptr==-1){
-            ind=max(ind,(int)(t.length()-s.length()));
-        }
-    } 
-    return (ind==-1e9) ? -1:ind;
-}
-
 void solve(){
-    string s;cin>>s;
-    int m=s.size();
-    int n;cin>>n;
-    vector<string>v(n);
-    input(v);
-    int ans=0,ind=0;
-    string t="";
-    for(int i=0,j=0;j<m;j++){
-        t.pb(s[j]);
-        int pos=-1; 
-        pos=check(t,v);
-        if(pos!=-1 and pos>=i){
-            i=pos+1;    
-        }
-        if(ans<= j-i+1){
-            ans=j-i+1;
-            ind=i;
-        }
+    int n,t,ai,b;cin>>n>>t>>ai>>b;
+    vector<pii>vp;
+    vi hard(n);
+    int cntA=0,cntB=0;
+    for(int a=0;a<n;a++){
+        cin>>hard[a];
+        if(hard[a])cntB++;
+        else cntA++;
     }
-    cout<<ans<<sp<<ind<<nl;
+    for(int a=0;a<n;a++){
+        int x;cin>>x;
+        vp.pb({x,hard[a]});
+    }
+    vp.pb({t+1,0});
+    sort(all(vp));
+    int cnt1=0,cnt2=0;
+    int ans=0;
+    for(int i=0;i<=n;i++){
+        int req=cnt1*ai+cnt2*b;
+        int has=vp[i].X-req-1;
+        if(has>=0){
+            int cana=min((cntA-cnt1),has/ai);
+            has-=cana*ai;
+            int canb=min((cntB-cnt2),has/b);
+            ans=max(ans,cnt1+cnt2+cana+canb);
+        }
+        int l=i;
+        while(l<=n and vp[l].X==vp[i].X){
+            if(vp[l].Y){
+                cnt2++;
+            }
+            else cnt1++;
+            l++;
+        }
+        i=l-1;
+    }
+    cout<<ans<<nl;
 }
 
 
