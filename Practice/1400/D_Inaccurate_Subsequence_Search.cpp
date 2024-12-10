@@ -1,104 +1,69 @@
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("avx2")
 #include <bits/stdc++.h>
-#include <iostream>
-#include <cstdio>
-#include <cstdlib>
-#include <algorithm>
-#include <cmath>
-#include <vector>
-#include <cassert>
-#include <array>
-#include <string>
-#include <cstring>
-#include <chrono>
 using namespace std;
-using namespace std::chrono;
 
 #define nl '\n'
 #define int long long
 #define vi vector<int>
 #define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
 #define input(v) for(int a=0;a<v.size();a++)cin>>v[a]
 #define X first
 #define Y second
 #define yes cout<<"YES"<<nl
 #define no cout<<"NO"<<nl
 #define sp " "
+#define repi(a,b,c) for(int i=a;i<=b;i+=c)
+#define pii pair<int,int>
+#define mx(v) max_element(v.begin(),v.end())
+#define mn(v) min_element(v.begin(),v.end())
+#define sm(v) accumulate(v.begin(),v.end(),0LL)
+#define pb push_back
+const int MOD = 1e9+7;
 
-#define fastio ios::sync_with_stdio(false);cin.tie(NULL);
+#define fastio ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 
-bool check(map<int,int>mp,map<int,int>reqmp,int k){
-    int cnt=0;
-    for(auto [k,v]:reqmp){
-        if(v==mp[k])
-        cnt++;
+void solve();
+
+signed main(){
+
+    fastio
+    int tc;
+    tc=1;
+    cin>>tc;
+    while(tc--){
+    solve();
     }
-    return cnt>=k;
 }
 
 void solve(){
     int n,m,k;cin>>n>>m>>k;
     vi v(n);
     input(v);
-    multiset<int>todo,done,extra;
+    map<int,int>mp1,mp2;
     for(int a=0;a<m;a++){
         int x;cin>>x;
-        todo.insert(x);
+        mp1[x]++;
     }
-    for(int a=0;a<m;a++){
-        if(todo.find(v[a])!=todo.end()){
-            todo.erase(todo.find(v[a]));
-            done.insert(v[a]);
+    int cnt=0,ans=0;
+    repi(0,n-1,1){
+        mp2[v[i]]++;
+        if(mp1[v[i]]>=mp2[v[i]])cnt++;
+        if(i>=m-1){
+            if(cnt>=k){
+                ans++;
+            }
+            mp2[v[i-m+1]]--;
+            if(mp2[v[i-m+1]]<mp1[v[i-m+1]])cnt--;
         }
-        else{
-            extra.insert(v[a]);
-        }
-    }
-    int ans=(done.size()>=k);
-    for(int a=m;a<n;a++){
-        int old=v[a-m];
-        if(extra.find(old)!=extra.end()){
-            extra.erase(extra.find(old));
-        }
-        else if(done.find(old)!=done.end()){
-            done.erase(done.find(old));
-            todo.insert(old);
-        }
-        if(todo.find(v[a])!=todo.end()){
-            todo.erase(todo.find(v[a]));
-            done.insert(v[a]);
-        }
-        else{
-            extra.insert(v[a]);
-        }
-        ans+=(done.size()>=k);
     }
     cout<<ans<<nl;
-}
-
-signed main(){
-
-    fastio
-    int tc;cin>>tc;
-    while(tc--){
-    solve();
-    }
-}
+}   
 
 
 
-//template<class T> bool cmin(T& a, const T& b) { return b < a ? a = b, 1 : 0; }
-//template<class T> bool cmax(T& a, const T& b) { return a < b ? a = b, 1 : 0; }
-//
-//struct starter{
-//   high_resolution_clock::time_point t1, t2;
-//
-//   starter() {
-//       ios::sync_with_stdio(0); cin.tie(0);
-//       t1 = high_resolution_clock::now();
-//   }
-//   ~starter() {
-//      t2 = high_resolution_clock::now();
-//       duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
-//       cerr <<  time_span.count();
-//       }
-//} starter_;
+// Question od be ded
+// constraints dekh be ded
+// shortcut aas satni time waste karnako be ded
+// tujere nammakam thonge, solve karsaktis
