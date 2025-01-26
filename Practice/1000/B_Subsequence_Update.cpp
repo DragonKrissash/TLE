@@ -32,53 +32,30 @@ signed main(){
     fastio
     int tc;
     tc=1;
-    // cin>>tc;
+    cin>>tc;
     while(tc--){
     solve();
     }
 }
 
-struct HASH{
-    const int mod=1e9+7,b1=5689,b2=8861;
-    vector<pair<int,int>>has,pow;
-    HASH(string s){
-        has.assign(s.size()+1,{0,0});
-        pow.assign(s.size()+1,{1,1});
-        for(int a=0;a<s.size();a++){
-            has[a+1]={
-                (has[a].X*b1+(s[a]-'a'+1))%mod,
-                (has[a].Y*b2+(s[a]-'a'+1))%mod
-            };
-            pow[a+1]={
-                (pow[a].X*b1)%mod,
-                (pow[a].Y*b2)%mod
-            };
-        }
-    }
-
-    pair<int,int> get(int l,int r){
-        l++;r++;
-        int h1=(has[r].X-(has[l-1].X*pow[r-l+1].X)%mod+mod)%mod;
-        int h2=(has[r].Y-(has[l-1].Y*pow[r-l+1].Y)%mod+mod)%mod;
-        return {h1,h2};
-    }
-
-};
-
 void solve(){
-    string s;cin>>s;
-    HASH h(s);
-    int n=s.size();
-    for(int a=n / 2 +1;a<n;a++){
-        pii h1=h.get(0,a-1);
-        pii h2=h.get(n-a,n-1);
-        if(h1==h2){
-            yes;
-            cout<<s.substr(0,a)<<nl;
-            return;
-        }
+    int n,l,r;cin>>n>>l>>r;
+    vi v(n);
+    input(v);
+    vi v1,v2;
+    int sum=0;
+    for(int a=0;a<r;a++){
+        v1.pb(v[a]);
     }
-    no;
+    for(int a=l-1;a<n;a++)v2.pb(v[a]);
+    sort(all(v1));
+    sort(all(v2));
+    int sum1=0,sum2=0;
+    for(int a=0;a<(r-l+1);a++){
+        sum1+=v1[a];
+        sum2+=v2[a];
+    }
+    cout<<min(sum1,sum2)<<nl;
 }
 
 
