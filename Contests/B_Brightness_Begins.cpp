@@ -1,0 +1,65 @@
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("avx2")
+#include <bits/stdc++.h>
+using namespace std;
+
+#define nl '\n'
+#define int long long
+#define vi vector<int>
+#define all(v) v.begin(),v.end()
+#define input(v) for(int a=0;a<v.size();a++)cin>>v[a]
+#define X first
+#define Y second
+#define yes cout<<"YES"<<nl
+#define no cout<<"NO"<<nl
+#define sp " "
+#define repi(a,b,c) for(int i=a;i<=b;i+=c)
+#define pii pair<int,int>
+#define mx(v) max_element(v.begin(),v.end())
+#define mn(v) min_element(v.begin(),v.end())
+#define sm(v) accumulate(v.begin(),v.end(),0LL)
+const int MOD = 1e9+7;
+
+#define fastio ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+
+void solve();
+
+signed main(){
+
+    fastio
+    int tc;
+    tc=1;
+    cin>>tc;
+    while(tc--){
+    solve();
+    }
+}
+
+bool check(int num,int n){
+    int val=sqrt(num);
+    while(val*val >num)val--;
+    while((val+1)*(val+1)<=num)val++;
+    return num-val>=n;
+}
+
+void solve(){
+    int n;cin>>n;
+    int l=0,r=2e18;
+    int ans=0;
+    while(l<=r){
+        int mid=l+(r-l)/2;
+        if(check(mid,n)){
+            ans=mid;
+            r=mid-1;
+        }
+        else l=mid+1;
+    }
+    cout<<ans<<nl;
+}
+
+
+
+// Question od be ded
+// constraints dekh be ded
+// shortcut aas satni time waste karnako be ded
+// tujere nammakam thonge, solve karsaktis
