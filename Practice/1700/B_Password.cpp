@@ -7,6 +7,7 @@ using namespace std;
 #define int long long
 #define vi vector<int>
 #define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
 #define input(v) for(int a=0;a<v.size();a++)cin>>v[a]
 #define X first
 #define Y second
@@ -18,6 +19,8 @@ using namespace std;
 #define mx(v) max_element(v.begin(),v.end())
 #define mn(v) min_element(v.begin(),v.end())
 #define sm(v) accumulate(v.begin(),v.end(),0LL)
+#define pb push_back
+#define ld long double
 const int MOD = 1e9+7;
 
 #define fastio ios::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
@@ -35,74 +38,57 @@ signed main(){
     }
 }
 
-int bin_power_mod(int base,int exp,int mod){
-    int res=1;
-    base%=mod;
-    while(exp>0){
-        if(exp&1)res=res*base %mod;
-        base=base*base %mod;
-        exp>>=1;
+struct HASH{
+    vector<int>h1,h2,p1,p2;
+    const int mod=1e9+7,b1=31,b2=37;
+    HASH(string s){
+        int n=s.size();
+        h1.resize(n+1);
+        p1.resize(n+1,1);
+        for(int a=0;a<n;a++){
+            h1[a+1]=(h1[a]*b1+(s[a]-'a'+1))%mod;
+            p1[a+1]=(p1[a]*b1)%mod;
+        }
     }
-    return res;
-}
-
-int inv_mod(int a,int mod){
-    return bin_power_mod(a,mod-2,mod);
-}
-
-bool check(string &s,int l,int hash){
-    int t=hash;
-    int n=s.size();
-    int p=31,mod=1e9+7;
-    int cnt=0;
-    // cout<<l<<nl;
-    int inv=inv_mod(p,mod);
-    int ppr=bin_power_mod(p,l-1,mod);
-    int i=0,j=l-1;
-    while(j<n){
-        // cout<<i<<sp<<j<<nl;
-        // cout<<"HASH "<<hash<<" T "<<t<<nl;
-        if(hash==t)cnt++;
-        t-=s[i]-'a'+1;
-        t=(t*inv)%mod;
-        i++;j++;
-        // if(j<n)
-        t=(t+(s[j]-'a'+1)*ppr + mod)%mod;
-        
+    int get(int l,int r){
+        l++;r++;
+        int has=(h1[r]-(h1[l-1]*p1[r-l+1])%mod+mod)%mod;
+        return has;
     }
-    // cout<<nl;
-    return cnt>2;
-}
+};
 
 void solve(){
     string s;cin>>s;
     int n=s.size();
-    vi pre(n,0);
-    pre[0]=s[0]-'a'+1;
-    int p=31,mod=1e9+7;
-    for(int a=1;a<n;a++){
-        pre[a]=(pre[a-1]+(s[a]-'a'+1)*bin_power_mod(p,a,mod))%mod;
-    }
+    HASH h(s);
     vi len;
-    for(int a=1;a<n;a++){
-        int pr=pre[a-1];
-        int suf=((pre[n-1]-pre[n-1-a]+mod)*inv_mod(bin_power_mod(p,n-a,mod),mod))%mod;
-        if(pr==suf)len.push_back(a);
-    }
-    // cout<<nl;
-    int l=0,h=len.size()-1;
-    int ans=0;
-    while(l<=h){
-        int m=l+(h-l)/2;
-        if(check(s,len[m],pre[len[m]-1])){
-            ans=len[m];
-            l=m+1;
+    for(int a=0;a<n-1;a++){
+        int h1=h.get(0,a);
+        int h2=h.get(n-1-a,n-1);
+        if(h1==h2){
+            len.pb(a+1);
         }
-        else h=m-1;
     }
-    // cout<<ans<<nl;
-    if(ans==0)cout<<"Just a legend";
-    else cout<<s.substr(0,ans);
+    if(len.size()==0){
+        cout<<"Just a legend";
+    }
+    else{
+        reverse(all(len));
+        int ans=-1;
+        for(int a:len){
+            int has=h.get(0,a-1);
+            for(int i=1;i<n-1;i++){
+                int l=i,r=i+a-1;
+                if(r>=n-1)break;
+                if(has==h.get(l,r)){
+                    ans=a;
+                    cout<<s.substr(0,a);
+                    return;
+                }
+            }
+        }
+        cout<<"Just a legend";
+    }
 }
 
 
